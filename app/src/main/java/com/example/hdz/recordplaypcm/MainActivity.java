@@ -3,6 +3,9 @@ package com.example.hdz.recordplaypcm;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +27,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private EditText m_etPlayFileName;
     private Button m_btnStartRecord;
     private Button m_btnStartPlay;
+
+    private Handler m_handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
             m_pcmRecord.stopRecord();
             m_pcmRecord = null;
         }
+        if (m_pcmPlay != null) {
+            m_pcmPlay.clean();
+            m_pcmPlay = null;
+        }
         super.onDestroy();
     }
 
@@ -93,8 +102,21 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     private void initLogic() {
+        m_handler = new Handler() {
+            public void handleMessage(Message msg) {
+                switch(msg.what) {
+                    case PCMPlay.PLAY_STATE_COMPLETE:
+                        m_etPlayFileName.setEnabled(true);
+                        m_btnStartPlay.setEnabled(true);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+
         m_pcmRecord = new PCMRecord();
-        m_pcmPlay   = new PCMPlay();
+        m_pcmPlay   = new PCMPlay(m_handler);
 
         //设置录音参数
         PCMParam pcmParam_in = PCMParam.GetPCMParamByDecodeType(PCMParam.AUDIO_16K_PCM, true);
@@ -105,6 +127,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         //启动App就开始录音，但是不保存到文件，这样才能不会延迟录音
         m_pcmRecord.record();
+
+        m_pcmPlay.initPlay();
     }
 
     //开始保存录音文件
@@ -152,11 +176,17 @@ public class MainActivity extends Activity implements View.OnClickListener{
         if (fileName.equals("")) {
             return;
         }
+
+        String sPath = m_sSDPath + "/" + fileName;
+        m_pcmPlay.setPCMFilePath(sPath);
+
         m_etPlayFileName.setEnabled(false);
         m_btnStartPlay.setEnabled(false);
+        m_pcmPlay.play();
     }
 
     private void stopPlay() {
+        m_pcmPlay.stop();
         m_etPlayFileName.setEnabled(true);
         m_btnStartPlay.setEnabled(true);
     }

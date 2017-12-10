@@ -106,6 +106,8 @@ public class PCMRecord {
     private void StartPCMRecord() {
         if (m_pcmParam != null) {
             stopRecord();
+            // 获得构建对象的最小缓冲区大小
+            // 根据音频数据的特性来确定所要分配的缓冲区的最小size
             int bufSize = AudioRecord.getMinBufferSize(m_pcmParam.m_iFrequency, m_pcmParam.m_iChannel, m_pcmParam.m_iSampBit);
             m_recorder = new AudioRecord(MediaRecorder.AudioSource.MIC, m_pcmParam.m_iFrequency, m_pcmParam.m_iChannel, m_pcmParam.m_iSampBit, bufSize);
             try {
