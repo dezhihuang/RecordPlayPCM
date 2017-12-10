@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RecordPlayPCM</string>
+    <string name="btnStartRecord">Start Record</string>
+    <string name="btnStopRecord">Stop Record</string>
+    <string name="btnStartPlay">Start Play</string>
+    <string name="btnStopPlay">Stop Play</string>
+    <string name="pcmRecordFileName">File Name:</string>
+    <string name="pcmPlayFileName">File Name:</string>
+</resources>

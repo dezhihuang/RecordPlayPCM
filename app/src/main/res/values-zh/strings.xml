@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PCM录播</string>
+    <string name="btnStartPlay">开始播放</string>
+    <string name="btnStartRecord">开始录音</string>
+    <string name="btnStopPlay">停止播放</string>
+    <string name="btnStopRecord">停止录音</string>
+    <string name="pcmPlayFileName">文件名：</string>
+    <string name="pcmRecordFileName">文件名：</string>
+</resources>
