@@ -106,6 +106,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
             public void handleMessage(Message msg) {
                 switch(msg.what) {
                     case PCMPlay.PLAY_STATE_COMPLETE:
+                        m_pcmPlay.stop();
                         m_etPlayFileName.setEnabled(true);
                         m_btnStartPlay.setEnabled(true);
                         break;

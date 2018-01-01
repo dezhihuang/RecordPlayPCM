@@ -35,10 +35,10 @@ public class PCMRecord {
     public void stopRecord() {
         if (m_bRecording) {
             m_recorder.stop();
+            m_recorder.release();
             m_recorder = null;
             m_bRecording = false;
         }
-
     }
 
     private boolean ReadAudioData(byte[] data, int offset, int size) {
